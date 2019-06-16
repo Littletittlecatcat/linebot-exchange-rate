@@ -1,1 +1,1 @@
-web: python test1.py
+web: python echotest.py

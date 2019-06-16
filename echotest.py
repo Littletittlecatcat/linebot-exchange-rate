@@ -13,8 +13,8 @@ from linebot.models import (
 app = Flask(__name__)
 
 # 填入你的 message api 資訊
-line_bot_api = LineBotApi('AeSmr7gCsdw2nqvlM6JD+efhuDhifLeNrL5UwEkChCmmzrx4PLe/C0EgAkSxQQy36rM1jcqZfgBQDZRJQDTJJClF4vxJUSFm4Dq85q4uPFcUbgaB0W/KpVyAMlqXwF/IK//qwpp5TS31VNHA1yBMsgdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('32d295f4d12e043a195444580e6786c5')
+line_bot_api = LineBotApi('Uv9eYbX9E4RxYHBmjwwoUr32eVymZNVkeqva7uvLhh8r8sLVSvUmZuIKx8rmANDE/29D5pGctD5nGeTTylHuHJ6o2DqQt210/+Esz+G/Cp18JCy/E9a5qfjF0DwgscCv5h0RZmzPujiIOBAGGVrQ4AdB04t89/1O/w1cDnyilFU=')
+handler = WebhookHandler('745051379ec45343551c037a2ba74fc8')
 
 
 # 設定你接收訊息的網址，如 https://YOURAPP.herokuapp.com/callback
@@ -44,6 +44,5 @@ def handle_message(event):
     msg = msg.encode('utf-8')
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=event.message.text))
     
-import os
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=os.environ['PORT'])
+    app.run()
