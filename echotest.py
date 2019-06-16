@@ -56,9 +56,6 @@ def movie():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
     if event.message.text == "最新電影":
         a=movie()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
