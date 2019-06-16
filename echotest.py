@@ -1,3 +1,7 @@
+import requests 
+from bs4 import BeautifulSoup
+from urllib.request import urlretrieve
+
 from flask import Flask, request, abort
 
 from linebot import (
@@ -34,6 +38,20 @@ def callback():
         abort(400)
 
     return 'OK'
+def movie():
+    target_url = 'https://movies.yahoo.com.tw/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.movielist_info h1 a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -41,6 +59,9 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
+    if event.message.text == "最新電影":
+        a=movie()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
 
 
 import os
