@@ -42,7 +42,8 @@ def exchange_rate():
     currency=r.json()
     usd_rate = currency['USDTWD']['Exrate']
     rmb_rate = currency['USDTWD']['Exrate']/currency['USDCNY']['Exrate']
-    content = '美金：{:.2f} 人民币：{:.2f}'.format(usd_rate, rmb_rate)
+    aud_rate = currency['USDTWD']['Exrate']/currency['USDAUD']['Exrate']
+    content = '美金：{:.2f} 人民幣：{:.2f} 澳幣：{:.2f}'.format(usd_rate, rmb_rate, aud_rate)
     return content
 
 
