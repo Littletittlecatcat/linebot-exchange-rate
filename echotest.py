@@ -10,6 +10,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
+import requests
+
+
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('/l3lrV/6VKSQOz0HN5iB/9QQwOJltRAjC+kR3h4g9wdiwGWwt3+i7i069DThcx6r/29D5pGctD5nGeTTylHuHJ6o2DqQt210/+Esz+G/Cp0npnEVH8wqyfWGdD0cOlagY6WIdJy1L+JOcj54WwaXwAdB04t89/1O/w1cDnyilFU=')
@@ -37,9 +40,17 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    input_text = event.message.text
+
+    if input_text == "匯率":
+        r=requests.get('https://tw.rter.info/capi.php')
+        currency=r.json()
+        usd_rate = currency['USDTWD']['Exrate']
+        rmb_rate = currency['USDTWD']['Exrate']/currency['USDCNY']['Exrate']
+
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=f'美元 USD 對台幣 TWD：1:{usd_rate}',f'人民幣 CNY 對台幣 TWD：1:{rmb_rate}'))
 
 
 if __name__ == "__main__":
