@@ -37,20 +37,26 @@ def callback():
 
     return 'OK'
 
+def exchange_rate():
+    r=requests.get('https://tw.rter.info/capi.php')
+    currency=r.json()
+    usd_rate = currency['USDTWD']['Exrate']
+    rmb_rate = currency['USDTWD']['Exrate']/currency['USDCNY']['Exrate']
+    content = '美金：{:.2f} 人民币：{:.2f}'.format(usd_rate, rmb_rate)
+    return content
+
+
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     input_text = event.message.text
 
     if input_text == "匯率":
-        r=requests.get('https://tw.rter.info/capi.php')
-        currency=r.json()
-        usd_rate = currency['USDTWD']['Exrate']
-        rmb_rate = currency['USDTWD']['Exrate']/currency['USDCNY']['Exrate']
-
-    line_bot_api.reply_message(
+        content=exchange_rate()
+        line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=f'美元 USD 對台幣 TWD：1:{usd_rate}',f'人民幣 CNY 對台幣 TWD：1:{rmb_rate}'))
+        TextSendMessage(text=content))
 
 
 if __name__ == "__main__":
