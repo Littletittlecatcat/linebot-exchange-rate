@@ -1,1 +1,1 @@
-web: python echotest.py
+web gunicorn echotest:app
