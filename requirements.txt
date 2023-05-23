@@ -1,4 +1,4 @@
 line-bot-sdk==1.16.0
 Flask==1.1.2
 gunicorn==19.10.0
-requests==2.24.0
+requests==2.31.0
